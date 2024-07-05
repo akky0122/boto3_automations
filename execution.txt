@@ -1,0 +1,25 @@
+#list all SSO instances to find the ARN using the following command
+aws sso-admin list-instances
+
+#Copy All user data in a JSON from old organization
+aws identitystore list-users --identity-store-id <d-store-id> > users.json
+
+#Create all copied users in new organization
+python create-sso-user.py
+
+#Copy All groups data in a JSON from old organization
+aws identitystore list-groups --identity-store-id <d-store-id> > groups.json
+
+#Create all copied groups in new organization
+python create-groups.py
+
+#This script will generate a users_to_groups.json file with the structure required to map users to groups from the old organization
+python create_users_to_groups_json.py
+
+#This will use users_to_groups.json to add users in the group as per json data from old organization
+python create_group_membership.py
+
+
+
+
+
